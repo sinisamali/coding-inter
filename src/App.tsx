@@ -1,26 +1,66 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useSelector, useDispatch } from "react-redux";
+import { getData } from "./reducers/FetchApiReducer/ApiActions";
+import apiReducer from "./reducers/FetchApiReducer/apiReducer";
+import { useEffect } from "react";
+import { RootStore } from "./Store";
+import Card from "./components/Card";
 
-function App() {
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getData(dispatch);
+  }, []);
+
+  const cats = useSelector((state: RootStore) => state.cats);
+  console.log(cats.data);
+  console.log(cats.tags);
+
+  const allcategories = cats.tags;
+
+  let columns = {
+    a: [],
+    b: [],
+    c: [],
+  };
+
+  let counter = 1;
+  cats.data.forEach((item) => {
+    if (counter === 1) {
+      columns.a.push(item);
+    }
+    if (counter === 2) {
+      columns.b.push(item);
+    }
+    if (counter === 3) {
+      columns.c.push(item);
+    }
+    counter++;
+    if (counter > 3) {
+      counter = 1;
+    }
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="picsline">
+        {columns.a?.map((el: any) => (
+          <Card key={el.id} el={el} allcategories={allcategories} />
+        ))}
+      </div>
+      <div className="picsline">
+        {columns.b?.map((el: any) => (
+          <Card key={el.id} el={el} allcategories={allcategories} />
+        ))}
+      </div>
+      <div className="picsline">
+        {columns.c?.map((el: any) => (
+          <Card key={el.id} el={el} allcategories={allcategories} />
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
