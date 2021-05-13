@@ -44,23 +44,35 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="columns">
-        <div className="picsline">
-          {columns.a?.map((el: any) => (
-            <Card key={el.id} el={el} allcategories={allcategories} />
-          ))}
-        </div>
-        <div className="picsline">
-          {columns.b?.map((el: any) => (
-            <Card key={el.id} el={el} allcategories={allcategories} />
-          ))}
-        </div>
-        <div className="picsline">
-          {columns.c?.map((el: any) => (
-            <Card key={el.id} el={el} allcategories={allcategories} />
-          ))}
-        </div>
-      </div>
+      {cats.data.map((el: any) => {
+        let horizontal = null;
+        let vertical = null;
+
+        if (el.width > 390) {
+          horizontal = Math.floor(el.width / 390) > 3 ? 3 : Math.floor(el.width / 390);
+
+        } else {
+          horizontal = 1;
+        }
+
+        if (el.height > 390) {
+          vertical = Math.floor(el.height / 390) > 3 ? 3 : Math.floor(el.height / 390);
+        } else {
+          vertical = 1
+        }
+
+        if (horizontal === vertical) {
+          horizontal = 1;
+          vertical = 1;
+        }
+
+        return (
+          <div className={"item" + ` h${horizontal} v${vertical}`}>
+            <img src={el.url} alt="" />
+          </div>
+        )
+      }
+      )}
     </div>
   );
 };
