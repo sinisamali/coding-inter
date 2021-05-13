@@ -19,14 +19,14 @@ const App: React.FC = () => {
 
   const allcategories = cats.tags;
 
-  let columns = {
+  let columns: any = {
     a: [],
     b: [],
     c: [],
   };
 
   let counter = 1;
-  cats.data.forEach((item) => {
+  cats.data.forEach((item: any) => {
     if (counter === 1) {
       columns.a.push(item);
     }
@@ -44,20 +44,22 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="picsline">
-        {columns.a?.map((el: any) => (
-          <Card key={el.id} el={el} allcategories={allcategories} />
-        ))}
-      </div>
-      <div className="picsline">
-        {columns.b?.map((el: any) => (
-          <Card key={el.id} el={el} allcategories={allcategories} />
-        ))}
-      </div>
-      <div className="picsline">
-        {columns.c?.map((el: any) => (
-          <Card key={el.id} el={el} allcategories={allcategories} />
-        ))}
+      <div className="columns">
+        <div className="picsline">
+          {columns.a?.map((el: any) => (
+            <Card key={el.id} el={el} allcategories={allcategories} />
+          ))}
+        </div>
+        <div className="picsline">
+          {columns.b?.map((el: any) => (
+            <Card key={el.id} el={el} allcategories={allcategories} />
+          ))}
+        </div>
+        <div className="picsline">
+          {columns.c?.map((el: any) => (
+            <Card key={el.id} el={el} allcategories={allcategories} />
+          ))}
+        </div>
       </div>
     </div>
   );

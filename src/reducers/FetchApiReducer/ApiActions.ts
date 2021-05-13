@@ -2,8 +2,13 @@ import axios from "axios";
 import { Dispatch } from "redux";
 
 export const DATA_FETCHED = "DATA_FETCHED";
+export const ADD_NEW_TAG = "ADD_NEW_TAG";
+export const DELETE_CARD = "DELETE_CARD";
 
-export type ActionTypes = { type: typeof DATA_FETCHED; payload: [] };
+export type ActionTypes =
+  | { type: typeof DATA_FETCHED; payload: [] }
+  | { type: typeof ADD_NEW_TAG; payload: string }
+  | { type: typeof DELETE_CARD; payload: string };
 
 export const getData = async (dispatch: Dispatch) => {
   try {

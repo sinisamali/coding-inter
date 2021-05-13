@@ -1,17 +1,34 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { AiOutlineLike, AiOutlineDelete, AiFillLike } from "react-icons/ai";
 
 interface Props {
   el: {
     url: string;
     categories: [];
+    id: string;
   };
   allcategories: any;
 }
 
 const Card: React.FC<Props> = (props) => {
+  const dispatch = useDispatch();
+
   const [liked, setLiked] = useState(false);
-  const [tags, setTags] = useState([]);
+  const [size, setSize] = useState("S"); // size can be 'S' small, 'M' medium, 'L' large
+  const [field, setField] = useState("");
+  const el = props.el;
+  let categories: any = [];
+  if (Array.isArray(el.categories)) {
+    // categories = el.categories;
+    el.categories.forEach((item: any) => {
+      if (item && item.name) {
+        categories.push(item.name);
+      }
+    });
+  }
+  const [tags, setTags] = useState([...categories]);
+
   const _like = () => {
     if (liked) {
       setLiked(false);
@@ -20,24 +37,63 @@ const Card: React.FC<Props> = (props) => {
     }
   };
 
+  const _handleInputChange = (e: any) => {
+    const newTag = e.target.value;
+    console.log(newTag);
+    setField(newTag);
+    // setTags([...tags, newTag]);
+  };
+  const _handleFieldSumbmit = (e: any) => {
+    // SUBMIT EVENT
+    e.preventDefault(); // preventing real submit
+    const newTag = field.trim();
+    if (typeof newTag === "string" && newTag !== "") {
+      // check if tag already exist
+      if (!tags.includes(newTag)) {
+        setTags([...tags, newTag]);
+        setField(""); // after submit clear form
+        // and add that new tag into global redux state
+        dispatch({ type: "ADD_NEW_TAG", payload: newTag });
+      }
+    }
+  };
+
   const _handleSelectTag = (e: any) => {
-    console.log(e.target.value);
+    const newTag = e.target.value;
+    console.log(newTag);
+    setTags([...tags, newTag]);
+  };
+
+  const _deletetTag = (tag: any) => {
+    const newTags: any = tags.filter((item) => {
+      if (tag === item) {
+        return false; // brisemo taj
+      }
+      return true;
+    });
+    setTags(newTags);
+  };
+
+  const _handleSelectSize = (e: any) => {
+    const newSize = e.target.value;
+    console.log(newSize);
+    setSize(newSize);
+  };
+
+  const _deleteCard = () => {
+    dispatch({ type: "DELETE_CARD", payload: el.id });
   };
 
   let jsxLiked = <AiOutlineLike className="action-btn" onClick={_like} />;
   if (liked) {
     jsxLiked = <AiFillLike className="action-btn" onClick={_like} />;
   }
-  const el = props.el;
-  let categories: any = [];
-  if (Array.isArray(el.categories)) {
-    categories = el.categories;
-  }
+
   const allcategories = props.allcategories;
-  let _tags = [...categories, tags]
+
   return (
     <div
-      className="card"
+      className={"card size-" + size}
       style={{
         backgroundImage: `url(${el.url})`,
         backgroundRepeat: "no-repeat",
@@ -51,12 +107,18 @@ const Card: React.FC<Props> = (props) => {
       }}
     >
       {jsxLiked}
-      <AiOutlineDelete className="action-btn" />
-      {categories.map((item: any) => {
+      <AiOutlineDelete className="action-btn" onClick={_deleteCard} />
+      {tags.map((item: any) => {
         return (
-          <div className="tag" key={item.id}>
-            {item.name}
-            <span>×</span>
+          <div className="tag" key={item}>
+            {item}
+            <span
+              onClick={(e) => {
+                _deletetTag(item);
+              }}
+            >
+              ×
+            </span>
           </div>
         );
       })}
@@ -70,6 +132,14 @@ const Card: React.FC<Props> = (props) => {
           );
         })}
       </select>
+      <select onChange={_handleSelectSize} value={size}>
+        <option value={"S"}>small</option>
+        <option value={"M"}>medium</option>
+        <option value={"L"}>large</option>
+      </select>
+      <form onSubmit={_handleFieldSumbmit}>
+        <input type="text" value={field} onChange={_handleInputChange} />
+      </form>
     </div>
   );
 };

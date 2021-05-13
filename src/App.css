@@ -11,10 +11,29 @@
   justify-content: center;
 }
 
+.columns {
+  margin-left: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: flex-start;
+  width: 300px;
+}
+
 .picsline {
   display: flex;
   flex-direction: column;
   width: 300px;
+}
+
+.card {
+  height: 250px;
+}
+.card.size-M {
+  height: 350px !important;
+}
+.card.size-L {
+  height: 450px !important;
 }
 
 .action-btn {
