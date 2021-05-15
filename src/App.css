@@ -1,85 +1,49 @@
 * {
-  transition: all 0.2s ease;
+  margin: 0;
+  padding: 0;
 }
-
-.App {
-  width: 1100px;
+html {
+  font-size: 16px;
+}
+@media (max-width: 640px) {
+  html {
+    font-size: 8px;
+  }
+}
+.wrapper {
+  position: relative;
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 2em 0em;
+}
+.grid {
+  position: relative;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, minmax(250px, 1fr));
-  grid-auto-rows: 390px;
+  /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));*/
+  grid-template-columns: 33% 33% 33%;
+  row-gap: 10px;
   grid-auto-flow: dense;
-  gap: 10px;
-  border: 10px solid black;
+  gap: 2em;
+}
+
+.item {
+  position: relative;
+  font-size: 2em;
 }
 
 .item.v2 {
-  grid-row:  span 2;
+  grid-row: span 2;
 }
 
 .item.v3 {
-  grid-row:  span 3;
+  grid-row: span 3;
 }
 
 .item.h2 {
-  grid-column:  span 2;
+  grid-column: span 2;
 }
 
 .item.h3 {
-  grid-column:  span 3;
-}
-
-.App img {
-  height: 100%;
-  width: 100%;
-}
-
-.columns {
-  margin-left: 30%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  text-align: flex-start;
-  width: 300px;
-}
-
-.picsline {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-}
-
-.card {
-  height: 250px;
-}
-.card.size-M {
-  height: 350px !important;
-}
-.card.size-L {
-  height: 450px !important;
-}
-
-.action-btn {
-  margin: 20px;
-  transform: scale(2);
-}
-.action-btn:hover {
-  transform: scale(2.5);
-  cursor: pointer;
-}
-
-.tag {
-  border-radius: 100px;
-  background-color: purple;
-  color: white;
-  padding: 3px 7px;
-  display: inline-block;
-}
-
-.tag span {
-  margin-left: 5px;
-}
-.tag span:hover {
-  cursor: pointer;
-  transofrm: scale(1.2);
+  grid-column: span 3;
 }

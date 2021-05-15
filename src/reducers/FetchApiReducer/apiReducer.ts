@@ -1,8 +1,11 @@
+import axios from "axios";
+import { Dispatch } from "redux";
 import {
   DATA_FETCHED,
   ADD_NEW_TAG,
   DELETE_CARD,
   ActionTypes,
+  ADD_NEW_IMAGE,
 } from "./ApiActions";
 
 interface initialStateInterface {
@@ -14,6 +17,23 @@ const initialState: initialStateInterface = {
   data: [],
   tags: [],
 };
+
+interface DATA {
+  id: [];
+  img: [];
+}
+
+const DATA: DATA = {
+  id: [],
+  img: [],
+};
+
+export const elementData = (data: DATA[], id: string, img: string): DATA[] =>
+  data.map((dat) => ({
+    ...dat,
+  }));
+
+
 
 const _updateCategories = (data: []) => {
   let categoriesAll: any = [];
@@ -42,12 +62,18 @@ const _updateCategoriesWithNewTag = (newTag: string, tags: any) => {
   return categoriesAll;
 };
 
-const _deleteById = (id: string, data: any) => {
+const delateCard = (id: string, data: any) => {
   return data.filter((item: any) => {
     if (id === item.id) {
       return false; // delete
     }
     return true;
+  });
+};
+
+const addNewImage = (url: string, data: any) => {
+  data.map((el: any) => {
+    return [url, ...el.url];
   });
 };
 
@@ -67,7 +93,12 @@ const apiReducer = (state = initialState, action: ActionTypes) => {
     case DELETE_CARD:
       return {
         ...state,
-        data: _deleteById(action.payload, state.data),
+        data: delateCard(action.payload, state.data),
+      };
+    case ADD_NEW_IMAGE:
+      return {
+        ...state,
+        data: addNewImage(action.payload, state?.data),
       };
     default:
       return state;
