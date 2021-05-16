@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../../reducers/FetchApiReducer/ApiActions";
 import { RootStore } from "../../Store";
-import AddNewImg from "../AddMewImg/AddNewImg";
+import AddNewImg from "../AddNewImg/AddNewImg";
 import ElInsideCard from "../ElInsideCard/ElInsideCard";
 import "./Card.css";
 
