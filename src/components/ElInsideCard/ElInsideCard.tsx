@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AiOutlineLike, AiOutlineDelete, AiFillLike } from "react-icons/ai";
 import { delateCard } from "../../reducers/FetchApiReducer/ApiActions";
+import "./ElInsideCard.css";
 
 interface Props {
   el: {
@@ -10,23 +11,20 @@ interface Props {
     id: string;
   };
   allcategories: any;
-  horizontal: any;
   vertical: any;
 }
 
-const Card: React.FC<Props> = (props) => {
+const ElInsideCard: React.FC<Props> = ({ vertical, el, allcategories }) => {
   const dispatch = useDispatch();
+
   const [liked, setLiked] = useState(false);
   const [field, setField] = useState("");
-  const el = props.el;
-  const id = el.id;
-  const allcategories = props.allcategories;
-  const horizontal = props.horizontal;
-  const vertical = props.vertical;
-  const [size, setSize] = useState(vertical);
+  const [size, setSize] = useState(0);
+  const [isShown, setIsShown] = useState(false);
+
   let categories: any = [];
+
   if (Array.isArray(el.categories)) {
-    // categories = el.categories;
     el.categories.forEach((item: any) => {
       if (item && item.name) {
         categories.push(item.name);
@@ -35,19 +33,9 @@ const Card: React.FC<Props> = (props) => {
   }
   const [tags, setTags] = useState([...categories]);
 
-  const _handleLike = () => {
-    if (liked) {
-      setLiked(false);
-    } else {
-      setLiked(true);
-    }
-  };
-
   const _handleInputChange = (e: any) => {
     const newTag = e.target.value;
-    console.log(newTag);
     setField(newTag);
-    // setTags([...tags, newTag]);
   };
   const _handleFieldSumbmit = (e: any) => {
     // SUBMIT EVENT
@@ -66,59 +54,50 @@ const Card: React.FC<Props> = (props) => {
 
   const _handleSelectTag = (e: any) => {
     const newTag = e.target.value;
-    console.log(newTag);
     setTags([...tags, newTag]);
   };
 
   const _handleDeletetTag = (tag: any) => {
-    const newTags: any = tags.filter((item) => {
-      if (tag === item) {
-        return false; // brisemo taj
-      }
-      return true;
-    });
+    const newTags: any = tags.filter((item) => tag !== item);
     setTags(newTags);
   };
 
-  const _handleSelectSize = (e: any) => {
-    const newSize = parseInt(e.target.value); // converted to integer
-    console.log(newSize);
-    setSize(newSize);
-  };
-
   return (
-    <div className={"item" + ` h${horizontal} v${size}`}>
+    <div className={`item v${vertical} h${size}`}>
       <img src={el.url} alt="" />
       <div className="overlay">
         <div className="btn-group">
-          {liked && (
+          {!liked ? (
             <AiOutlineLike
               style={{ fontSize: "1em" }}
               className="btn-like"
-              onClick={_handleLike}
+              onClick={() => setLiked(true)}
             />
-          )}
-          {!liked && (
+          ) : (
             <AiFillLike
               style={{ fontSize: "1em" }}
               className="btn-like"
-              onClick={_handleLike}
+              onClick={() => setLiked(false)}
             />
           )}
+          {window.innerWidth > 400 && (
+            <div className="select-size">
+              <select onChange={(e) => setSize(parseInt(e.target.value))}>
+                <option value={"1"}>small</option>
+                <option value={"2"}>medium</option>
+                <option value={"3"}>large</option>
+              </select>
+            </div>
+          )}
+
           <AiOutlineDelete
             style={{ fontSize: "1em" }}
             className="btn-delete"
-            onClick={(e) => dispatch(delateCard(id))}
+            onClick={(e) => dispatch(delateCard(el.id))}
           />
         </div>
-        <div className="group">
-          <select onChange={_handleSelectSize} value={size}>
-            <option value={"1"}>small</option>
-            <option value={"2"}>medium</option>
-            <option value={"3"}>large</option>
-          </select>
-        </div>
-        <div className="group">
+
+        <div className="group1">
           {tags.map((item: any) => {
             return (
               <div className="tag" key={item}>
@@ -161,4 +140,4 @@ const Card: React.FC<Props> = (props) => {
   );
 };
 
-export default Card;
+export default ElInsideCard;
