@@ -1,0 +1,89 @@
+.item img {
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.overlay {
+  z-index: 99;
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 90%;
+}
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.select-size {
+  height: 100%;
+  align-self: flex-start;
+}
+.group {
+  font-size: 1em;
+  width: 100%;
+  padding-bottom: 0.1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.group select {
+  width: 40%;
+}
+
+.btn-like {
+  z-index: 20;
+  padding: 0.3em;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 300px;
+}
+.btn-like:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+.btn-delete {
+  margin-left: 0.5em;
+  z-index: 20;
+  padding: 0.3em;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 300px;
+}
+.btn-delete:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.tag {
+  display: inline-block;
+  color: white;
+  background-color: purple;
+  border-radius: 300px;
+  font-size: 0.5em;
+  padding: 0.2em 0.6em;
+  margin-right: 0.2em;
+}
+.tag span {
+  font-size: 1em;
+  margin-left: 0.3em;
+}
+.tag span:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.item.h2 {
+  grid-column: span 2;
+}
+
+.item.h3 {
+  grid-column: span 3;
+}
