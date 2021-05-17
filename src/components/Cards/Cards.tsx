@@ -10,15 +10,19 @@ const Cards = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getData(dispatch);
+    setTimeout(() => {
+      getData(dispatch);
+    }, 2000);
   }, [dispatch]);
 
   const cats = useSelector((state: RootStore) => state.cats);
-  const { data, tags } = cats;
+
+  const { data, tags, loading } = cats;
+
+  console.log(loading);
 
   return (
     <div className="wrapper">
-      <AddNewImg data={data} />
       <div className="grid">
         {data.map((el: any) => {
           let vertical = null;

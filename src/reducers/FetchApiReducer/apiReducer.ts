@@ -3,6 +3,7 @@ import {
   ADD_NEW_TAG,
   DELETE_CARD,
   ADD_NEW_IMAGE,
+  DATA_LOADING,
   ActionTypes,
 } from "./ApiActions";
 
@@ -12,11 +13,13 @@ interface Data {
 interface initialStateInterface {
   data: Data[];
   tags: [];
+  loading: boolean;
 }
 
 const initialState: initialStateInterface = {
   data: [],
   tags: [],
+  loading: true,
 };
 
 const _updateCategories = (data: []) => {
@@ -49,9 +52,16 @@ const _delateCard = (id: string, data: any) => {
 
 const apiReducer = (state = initialState, action: ActionTypes) => {
   switch (action.type) {
+    case DATA_LOADING:
+      return {
+        ...state,
+        loading: true,
+        action: action.payload,
+      };
     case DATA_FETCHED:
       return {
         ...state,
+        loading: false,
         data: action.payload,
         tags: _updateCategories(action.payload),
       };
@@ -63,6 +73,7 @@ const apiReducer = (state = initialState, action: ActionTypes) => {
     case DELETE_CARD:
       return {
         ...state,
+        loading: false,
         data: _delateCard(action.payload, state.data),
       };
     case ADD_NEW_IMAGE:
